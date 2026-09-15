@@ -11,5 +11,12 @@ double ExternalEngine::doIt(const CalcRequest& request) {
     if (!doItFunc_)
         throw std::logic_error("External library is not loaded: " + library_.errorString().toStdString());
 
-    return doItFunc_(static_cast<int>(request.getOpName()), request.a, request.b);
+    try {
+        return doItFunc_(static_cast<int>(request.getOpName()), request.a, request.b);
+    } catch (const std::exception& e) {
+        throw std::logic_error(std::string("External library error: ") + e.what());
+    } catch (...) {
+        throw std::logic_error("External library threw an unrecognized exception "
+                               "(possible ABI/compiler mismatch)");
+    }
 }

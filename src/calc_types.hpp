@@ -28,8 +28,6 @@ struct CalcRequest {
         default:
             throw std::logic_error("Unresolved operation name");
         }
-
-        Q_UNREACHABLE();
     }
 };
 

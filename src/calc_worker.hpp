@@ -21,6 +21,8 @@ signals:
     void finished();
 
 public slots:
+    /// Важное замечание тут бесконечный цикл, и event loop рабочего потока фактически не крутится
+    /// Т.е. если дернуть слот stop() через сигнал, то он не отработает
     void runCalculations();
     void stop();
 

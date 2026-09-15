@@ -33,9 +33,6 @@ public:
     int calcDelaySeconds() const { return delaySeconds_; }
     void setCalcDelaySeconds(int value);
 
-    // Запускает вычисление выражения "a op b"
-    Q_INVOKABLE void submitRequest(const QString& opStr, double a, double b);
-
     // Разбирает выражение вида "10 / 2 * 5" слева направо без приоритета операций
     Q_INVOKABLE void submitExpression(const QString& expression);
 

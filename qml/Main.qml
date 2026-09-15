@@ -8,7 +8,7 @@ ApplicationWindow {
     visible: true
     width: 420
     height: 640
-    minimumWidth: 380
+    minimumWidth: 420
     minimumHeight: 560
     title: "Калькулятор"
 
@@ -70,12 +70,19 @@ ApplicationWindow {
     }
 
     function appendDot() {
-        if (entry === "0")
+        if (entry === "0") {
             entry = "0."
-        else if (entry.slice(-1) === ".")
             return
-        else
-            entry += "."
+        }
+        // ищем начало текущего числового сегмента (после последнего оператора)
+        var lastOpIndex = Math.max(
+            entry.lastIndexOf("+"), entry.lastIndexOf("-"),
+            entry.lastIndexOf("*"), entry.lastIndexOf("/")
+        )
+        var currentSegment = entry.substring(lastOpIndex + 1)
+        if (currentSegment.indexOf(".") !== -1)
+            return
+        entry += "."
     }
 
     function appendOperator(op) {
@@ -88,11 +95,36 @@ ApplicationWindow {
     }
 
     function pressOperator(op) {
+        if (op === "-" && isOperandStart()) {
+            startNegativeOperand()
+            return
+        }
         appendOperator(op)
     }
 
+    function isOperandStart() {
+        if (entry === "0")
+            return true
+        var trimmed = entry.trim()
+        return /[+\-*/]$/.test(trimmed)
+    }
+
+    function startNegativeOperand() {
+        if (entry === "0") {
+            entry = "-"
+            return
+        }
+
+        if (entry.slice(-1) === "-")
+            return
+
+        var trimmed = entry.trim()
+        entry = trimmed + " -"
+    }
+
     function pressEquals() {
-        if (!entry || entry.trim() === "") {
+        var trimmed = entry.trim()
+        if (trimmed === "" || trimmed === "0") {
             backend.reportInputError("Пустой запрос: выражение не введено")
             return
         }
