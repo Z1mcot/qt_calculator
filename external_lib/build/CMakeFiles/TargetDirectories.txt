@@ -1,3 +1,0 @@
-/home/ricz/Projects/qt_calculator/external_lib/build/CMakeFiles/doit.dir
-/home/ricz/Projects/qt_calculator/external_lib/build/CMakeFiles/edit_cache.dir
-/home/ricz/Projects/qt_calculator/external_lib/build/CMakeFiles/rebuild_cache.dir
